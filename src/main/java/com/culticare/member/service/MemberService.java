@@ -58,7 +58,7 @@ public class MemberService {
         return memberSaveResponseDto;
     }
 
-    private void checkDuplicateMemberLoginId(String loginId) {
+    public void checkDuplicateMemberLoginId(String loginId) {
         if (memberRepository.existsByUserId(loginId)) {
             throw new CustomException(ErrorCode.EXIST_LOGIN_ID);
         }

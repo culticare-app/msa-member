@@ -31,6 +31,15 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberSaveResponseDto);
     }
 
+    // 아이디 중복 체크
+    @GetMapping("/check-id")
+    public ResponseEntity<Void> checkLoginId(@RequestParam("loginId") String loginId) {
+
+        memberService.checkDuplicateMemberLoginId(loginId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     // 로그인
     @GetMapping("/login")
     public ResponseEntity<MemberLoginResponseDto> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
