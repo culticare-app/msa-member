@@ -1,5 +1,7 @@
 package com.culticare.member.controller;
 
+import com.culticare.jwt.service.JwtService;
+import com.culticare.member.controller.dto.response.TokenResponseDto;
 import com.culticare.member.dto.request.MemberLoginRequestDto;
 import com.culticare.member.dto.response.MemberLoginResponseDto;
 import com.culticare.member.controller.dto.request.MemberSaveRequestDto;
@@ -10,12 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequestMapping("/members")
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtService jwtService;
 
     // 회원가입
     @PostMapping("/join")
@@ -33,6 +38,21 @@ public class MemberController {
         MemberLoginResponseDto memberLoginResponseDto = memberService.login(memberLoginRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(memberLoginResponseDto);
+    }
+
+    // 토근 재발급
+    @PostMapping("/token")
+    public ResponseEntity<TokenResponseDto> refresh(@RequestBody Map<String, String> refreshToken) {
+
+        // Refresh Token 검증
+        String recreatedAccessToken = jwtService.validateRefreshToken(refreshToken.get("refreshToken"));
+
+        // Access Token 재발급
+        TokenResponseDto tokenResponseDto = TokenResponseDto.builder()
+                .accessToken(recreatedAccessToken)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(tokenResponseDto);
     }
 
     // 로그아웃
