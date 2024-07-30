@@ -1,10 +1,10 @@
 package com.culticare.sms.service;
 
-import app.kidsInSeoul.common.exception.CustomException;
-import app.kidsInSeoul.common.exception.ErrorCode;
-import app.kidsInSeoul.sms.dao.SmsCertificationDao;
-import app.kidsInSeoul.sms.dto.UserSmsRequestDto;
-import app.kidsInSeoul.sms.util.SmsCertificationUtil;
+import com.culticare.common.exception.CustomException;
+import com.culticare.common.exception.ErrorCode;
+import com.culticare.sms.dao.SmsCertificationDao;
+import com.culticare.sms.dto.UserSmsRequestDto;
+import com.culticare.sms.util.SmsCertificationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
