@@ -35,4 +35,13 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberLoginResponseDto);
     }
 
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String accessToken) {
+
+        memberService.logout(accessToken);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

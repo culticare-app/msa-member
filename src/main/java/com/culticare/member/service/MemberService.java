@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -86,5 +87,12 @@ public class MemberService {
         return memberLoginResponseDto;
     }
 
-    
+    @Transactional
+    public void logout(String accessToken) {
+        Long expiration = jwtTokenProvider.getExpiration(accessToken);
+
+        redisTemplate.opsForValue()
+                .set(accessToken, "blackList", expiration, TimeUnit.MILLISECONDS);
+    }
+
 }
