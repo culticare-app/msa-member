@@ -1,7 +1,7 @@
 package com.culticare.member.controller;
 
-import com.culticare.controller.dto.request.MemberLoginRequestDto;
-import com.culticare.controller.dto.response.MemberLoginResponseDto;
+import com.culticare.member.dto.request.MemberLoginRequestDto;
+import com.culticare.member.dto.response.MemberLoginResponseDto;
 import com.culticare.member.controller.dto.request.MemberSaveRequestDto;
 import com.culticare.member.controller.dto.response.MemberSaveResponseDto;
 import com.culticare.member.service.MemberService;
@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/member")
+@RequestMapping("/members")
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
@@ -27,9 +27,12 @@ public class MemberController {
     }
 
     // 로그인
-//    @GetMapping("/login")
-//    public ResponseEntity<MemberLoginResponseDto> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
-//
-//    }
+    @GetMapping("/login")
+    public ResponseEntity<MemberLoginResponseDto> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
+
+        MemberLoginResponseDto memberLoginResponseDto = memberService.login(memberLoginRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberLoginResponseDto);
+    }
 
 }

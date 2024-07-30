@@ -2,6 +2,11 @@ package com.culticare.member.service;
 
 import com.culticare.common.exception.CustomException;
 import com.culticare.common.exception.ErrorCode;
+import com.culticare.jwt.service.JwtService;
+import com.culticare.jwt.web.JwtTokenProvider;
+import com.culticare.jwt.web.dto.TokenDto;
+import com.culticare.member.dto.request.MemberLoginRequestDto;
+import com.culticare.member.dto.response.MemberLoginResponseDto;
 import com.culticare.member.controller.dto.request.MemberSaveRequestDto;
 import com.culticare.member.controller.dto.response.MemberSaveResponseDto;
 import com.culticare.member.entity.Member;
@@ -21,6 +26,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtService jwtService;
     private final RedisTemplate redisTemplate;
 
     @Transactional
@@ -56,5 +63,28 @@ public class MemberService {
         }
     }
 
-    //회원가입
+    @Transactional
+    public MemberLoginResponseDto login(MemberLoginRequestDto dto) {
+
+        // 로그인아이디 및 비밀번호 유효성 체크
+        Member findMember = memberRepository.findByLoginId(dto.getLoginId())
+                .orElseThrow(() -> new CustomException(ErrorCode.UNAUTHORIZED_MEMBER));
+
+        if (!passwordEncoder.matches(dto.getPassword(), findMember.getPassword())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_PASSWORD);
+        }
+
+        TokenDto tokenDto = jwtTokenProvider.createToken(findMember.getLoginId(), findMember.getRoles());
+        jwtService.saveRefreshToken(tokenDto);
+
+        MemberLoginResponseDto memberLoginResponseDto = MemberLoginResponseDto.builder()
+                .accessToken(tokenDto.getAccessToken())
+                .refreshToken(tokenDto.getRefreshToken())
+                .roles(findMember.getRoles().get(0))
+                .build();
+
+        return memberLoginResponseDto;
+    }
+
+    
 }
