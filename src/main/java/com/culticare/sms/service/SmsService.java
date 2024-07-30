@@ -1,6 +1,6 @@
 package com.culticare.sms.service;
 
-import app.kidsInSeoul.sms.dto.UserSmsRequestDto;
+import com.culticare.sms.dto.UserSmsRequestDto;
 
 public interface SmsService {
     void sendSms(UserSmsRequestDto requestDto);
