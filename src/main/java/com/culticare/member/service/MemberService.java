@@ -59,7 +59,7 @@ public class MemberService {
     }
 
     public void checkDuplicateMemberLoginId(String loginId) {
-        if (memberRepository.existsByUserId(loginId)) {
+        if (memberRepository.existsByLoginId(loginId)) {
             throw new CustomException(ErrorCode.EXIST_LOGIN_ID);
         }
     }

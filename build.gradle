@@ -39,6 +39,9 @@ dependencies {
 	//cool sms
 	implementation 'net.nurigo:sdk:4.3.0'
 
+	// MySQL
+	implementation 'mysql:mysql-connector-java:8.0.32'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -46,6 +49,10 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
+
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
