@@ -13,12 +13,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+@Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
